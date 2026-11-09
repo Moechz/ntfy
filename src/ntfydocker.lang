@@ -1,0 +1,195 @@
+# ===========================================================================
+# Multilingual file for the TOS 7 Docker application "ntfydocker".
+# File name MUST be: <appid>.lang.  23-language superset (14 required by TOS).
+# The App Center picks the text matching the user's device language;
+# untranslated nodes fall back to English, which the official guide allows.
+# Fields: name (app title), auth (upstream author), descript (up to 512
+# chars), release_note, important (up to 512 chars).
+# Translations come from tosapp.json "translations"; run
+#   tosdocker lang <app>          to re-render this file
+#   tosdocker translate <app>     to see what still needs translating
+# ===========================================================================
+[en-us]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[zh-cn]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy 是一个极简的 HTTP 推送通知服务：任何脚本只要发一个 PUT/POST 到某个 topic，你就能在网页或手机 App 里收到消息，非常适合做备份结果、下载完成、监控告警的通知。不需要账号，也不经过第三方服务——消息只经过你自己的容器，消息缓存保存在应用数据目录中。"
+release_note = "1. 首个版本：基于 Docker Hub 的 ntfy 2.37.2，以非 root 容器监听 8080。一条 HTTP 请求即可发通知，网页或手机 App 接收；缓存与配置保存在应用数据目录。"
+important    = "需要 DockerEngine（缺失时应用中心会自动安装）。容器以非 root 用户监听 8080，网页与 API 共用该端口。默认没有任何鉴权：任何能访问该端口的人都可以向任意 topic 发布/订阅，请只在内网使用，或先在配置目录里加好 auth 文件。缓存与服务器配置保存在 DockerAppData/ntfydocker。界面为纯 HTTP，暴露到公网前请配置带 TLS 的反向代理。"
+
+[zh-hk]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy 是一個極簡的 HTTP 推送通知服務：任何腳本只要發一個 PUT/POST 到某個 topic，你就能在網頁或手機 App 裡收到訊息，非常適合做備份結果、下載完成、監控告警的通知。不需要帳號，也不經過第三方服務——訊息只經過你自己的容器，訊息快取保存在應用資料目錄中。"
+release_note = "1. 首個版本：基於 Docker Hub 的 ntfy 2.37.2，以非 root 容器監聽 8080。一條 HTTP 請求即可發通知，網頁或手機 App 接收；快取與設定保存在應用資料目錄。"
+important    = "需要 DockerEngine（缺少時應用中心會自動安裝）。容器以非 root 使用者監聽 8080，網頁與 API 共用該端口。預設沒有任何鑑權：任何能存取該端口的人都可以向任意 topic 發佈/訂閱，請只在內網使用，或先在設定目錄裡加好 auth 檔案。快取與伺服器設定保存在 DockerAppData/ntfydocker。介面為純 HTTP，公開到互聯網前請配置帶 TLS 的反向代理。"
+
+[fr-fr]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[de-de]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[it-it]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[es-es]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[hu-hu]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[ja-jp]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[ko-kr]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[pl-pl]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[ru-ru]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[tr-tr]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[pt-pt]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[ar-sa]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[cs-cz]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[he-il]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[id-id]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[nb-no]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[nl-nl]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[sv-se]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[th-th]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+
+[vi-vn]
+name         = "ntfy"
+auth         = "binwiederhier"
+version      = "@@VERSION@@"
+descript     = "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder."
+release_note = "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder."
+important    = "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet."
+

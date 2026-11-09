@@ -1,0 +1,113 @@
+{
+  "app_id": "ntfydocker",
+  "title": "ntfy",
+  "image": "binwiederhier/ntfy:v2.37.2",
+  "repo_name": "ntfy",
+  "mode": "plain",
+  "container_port": 8080,
+  "category": [
+    "Web_Services"
+  ],
+  "volumes": [
+    {
+      "host": "/Volume1/DockerAppData/ntfydocker/cache",
+      "container": "/var/cache/ntfy"
+    },
+    {
+      "host": "/Volume1/DockerAppData/ntfydocker/config",
+      "container": "/etc/ntfy"
+    }
+  ],
+  "env": {
+    "TZ": "Asia/Shanghai",
+    "NTFY_LISTEN_HTTP": ":8080"
+  },
+  "auth": "binwiederhier",
+  "upstream_url": "https://github.com/binwiederhier/ntfy",
+  "upstream_license": "Apache-2.0",
+  "descript": "ntfy is a simple HTTP-based notification service: any script can publish a message to a topic with one PUT or POST, and you receive it in the web UI or the phone app - perfect for backup results, download completion and monitoring alerts on your NAS. No account and no third-party service: the messages go through your own container, and the message cache lives in the application data folder.",
+  "release_note": "1. First release: ntfy 2.37.2 from Docker Hub as a non-root container listening on 8080. Publish notifications with a single HTTP request, receive them in the web UI or the phone app; cache and config stay in the application data folder.",
+  "important": "Requires DockerEngine (installed automatically if missing). The container listens on port 8080 as a non-root user; the web UI and the API share it. There is NO authentication by default - anyone who can reach the port can publish and subscribe to any topic, so keep it on your LAN or add an auth file in the config folder first. Cache and server config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet.",
+  "probe": {
+    "user_in_image": "(root)",
+    "entrypoint": [
+      "ntfy"
+    ],
+    "cmd": null,
+    "exposed_ports": [
+      80
+    ],
+    "declared_volumes": [],
+    "image_healthcheck": [],
+    "digest": "binwiederhier/ntfy@sha256:1875ddcf815c8a3c981d6d78c67a93452d0abba79b1ab9520b1f5f5238902bd7",
+    "architecture": "x86_64",
+    "platforms": [
+      "x86_64",
+      "aarch64"
+    ],
+    "http_client_in_image": "wget",
+    "trial_run": {
+      "ok": false,
+      "http_code": "",
+      "state": "exited",
+      "paths": [],
+      "host_port": 18000,
+      "log_tail": "                 disable the date/time prefix (default: false) [$NTFY_NO_LOG_DATES]\n   --log-level value, --log_level value                                                                                   set log level (default: \"INFO\") [$NTFY_LOG_LEVEL]\n   --log-level-overrides value, --log_level_overrides value [ --log-level-overrides value, --log_level_overrides value ]  set log level overrides [$NTFY_LOG_LEVEL_OVERRIDES]\n   --log-format value, --log_format value                                                                                 set log format (default: \"text\") [$NTFY_LOG_FORMAT]\n   --log-file value, --log_file value                                                                                     set log file, default is STDOUT [$NTFY_LOG_FILE]\n   --help, -h                                                                                                             show help\n   --version, -v                                                                                                          print the version\n\nTry 'ntfy COMMAND --help' or https://ntfy.sh/docs/ for more information.\n\nTo report a bug, open an issue on GitHub: https://github.com/binwiederhier/ntfy/issues.\nIf you want to chat, simply join the Discord server (https://discord.gg/cT7ECsZj9w), or\nthe Matrix room (https://matrix.to/#/#ntfy:matrix.org).\n\nntfy 2.37.2 (0510957), runtime go1.27.3, built at 2026-11-04T01:43:27Z\nCopyright (C) Philipp C. Heckel, licensed under Apache License 2.0 & GPLv2",
+      "files_in_mounts": ""
+    },
+    "docker_hub": {},
+    "github": {
+      "owner": "binwiederhier",
+      "repo": "ntfy",
+      "description": "Send push notifications to your phone or desktop using PUT/POST",
+      "license": "Apache-2.0",
+      "homepage": "https://ntfy.sh"
+    }
+  },
+  "healthcheck": [
+    "CMD-SHELL",
+    "wget -q -O /dev/null http://127.0.0.1:8080/v1/health || exit 1"
+  ],
+  "entrypoint_file": "src/entrypoint.sh",
+  "platform": "x86_64",
+  "user": "1000:1000",
+  "publisher": "Moechz",
+  "compose_project": "ntfydocker",
+  "github_repo": "ntfy",
+  "upstream_version": "2.37.2",
+  "release_tag_prefix": "v",
+  "version": "2.37.2-1",
+  "help": "https://github.com/Moechz/ntfy/issues",
+  "official": "https://github.com/binwiederhier/ntfy",
+  "license": "Apache-2.0",
+  "docker_socket": false,
+  "group_add": [],
+  "command": [
+    "serve"
+  ],
+  "healthcheck_start_period": "20s",
+  "translations": {
+    "zh-cn": {
+      "descript": "ntfy 是一个极简的 HTTP 推送通知服务：任何脚本只要发一个 PUT/POST 到某个 topic，你就能在网页或手机 App 里收到消息，非常适合做备份结果、下载完成、监控告警的通知。不需要账号，也不经过第三方服务——消息只经过你自己的容器，消息缓存保存在应用数据目录中。",
+      "important": "需要 DockerEngine（缺失时应用中心会自动安装）。容器以非 root 用户监听 8080，网页与 API 共用该端口。默认没有任何鉴权：任何能访问该端口的人都可以向任意 topic 发布/订阅，请只在内网使用，或先在配置目录里加好 auth 文件。缓存与服务器配置保存在 DockerAppData/ntfydocker。界面为纯 HTTP，暴露到公网前请配置带 TLS 的反向代理。",
+      "release_note": "1. 首个版本：基于 Docker Hub 的 ntfy 2.37.2，以非 root 容器监听 8080。一条 HTTP 请求即可发通知，网页或手机 App 接收；缓存与配置保存在应用数据目录。"
+    },
+    "zh-hk": {
+      "descript": "ntfy 是一個極簡的 HTTP 推送通知服務：任何腳本只要發一個 PUT/POST 到某個 topic，你就能在網頁或手機 App 裡收到訊息，非常適合做備份結果、下載完成、監控告警的通知。不需要帳號，也不經過第三方服務——訊息只經過你自己的容器，訊息快取保存在應用資料目錄中。",
+      "important": "需要 DockerEngine（缺少時應用中心會自動安裝）。容器以非 root 使用者監聽 8080，網頁與 API 共用該端口。預設沒有任何鑑權：任何能存取該端口的人都可以向任意 topic 發佈/訂閱，請只在內網使用，或先在設定目錄裡加好 auth 檔案。快取與伺服器設定保存在 DockerAppData/ntfydocker。介面為純 HTTP，公開到互聯網前請配置帶 TLS 的反向代理。",
+      "release_note": "1. 首個版本：基於 Docker Hub 的 ntfy 2.37.2，以非 root 容器監聽 8080。一條 HTTP 請求即可發通知，網頁或手機 App 接收；快取與設定保存在應用資料目錄。"
+    }
+  },
+  "data_notes": "`/var/cache/ntfy` (mounted from `DockerAppData/ntfydocker/cache`) keeps the message cache and any attachments; `/etc/ntfy` (mounted from `.../config`) is where you put `server.yml` to add users, access control or a base URL.",
+  "design_notes": [
+    "**Non-root by port choice.** The image defaults to port 80, which an unprivileged container cannot bind; the package starts `ntfy serve` with `NTFY_LISTEN_HTTP=:8080` instead.",
+    "**No external database.** The message cache is a file-based store under the cache volume.",
+    "**One HTTP port for UI and API.** Publishing is a plain PUT/POST, so scripts and the phone app need nothing but the URL."
+  ],
+  "limitations": [
+    "- No authentication out of the box: anyone reaching the port can publish to any topic. Add an auth file or keep it on the LAN.",
+    "- The web UI is plain HTTP; use a TLS reverse proxy before exposing it to the internet.",
+    "- Attachment links and some notification links use ntfy's base-url setting; set it in `server.yml` if your NAS address changes (the package does not guess your NAS IP)."
+  ],
+  "host_port": 8034
+}
