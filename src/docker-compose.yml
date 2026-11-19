@@ -1,7 +1,7 @@
 # ===========================================================================
 # ntfy for TerraMaster TOS 7 (Docker application)
 # ===========================================================================
-# Upstream image : binwiederhier/ntfy:v2.37.2 (Docker Hub, used unmodified)
+# Upstream image : binwiederhier/ntfy:v2.38.1 (Docker Hub, used unmodified)
 #                  -> https://github.com/binwiederhier/ntfy
 #
 # Ports   : host 8034 -> container 8080. The host port is in the
@@ -10,6 +10,13 @@
 # Volumes : all persistent data lives below
 #           /Volume1/DockerAppData/ntfydocker/. The /Volume* wildcard is
 #           deliberately NOT used: the platform does not expand it.
+#           cache/  -> /var/cache/ntfy  message cache and attachments
+#           config/ -> /etc/ntfy        server.yml
+#           lib/    -> /var/lib/ntfy    user.db (auth) and webpush.db
+#           The four paths are pinned in the environment below, because ntfy's
+#           own defaults put user.db and webpush.db in /var/lib/ntfy - without
+#           the third volume every account and push subscription would be lost
+#           when the container is recreated.
 # TOS rules honoured: Docker Hub image with a fixed tag (never ':latest'),
 #           container_name == application id, restart: unless-stopped,
 #           non-root user, no privileged mode, no network_mode: host, no
@@ -26,7 +33,7 @@
 
 services:
   ntfydocker:
-    image: binwiederhier/ntfy:v2.37.2
+    image: binwiederhier/ntfy:v2.38.1
     container_name: ntfydocker
     restart: unless-stopped
     user: "1000:1000"
@@ -36,9 +43,14 @@ services:
     environment:
       TZ: "Asia/Shanghai"
       NTFY_LISTEN_HTTP: ":8080"
+      NTFY_CACHE_FILE: "/var/cache/ntfy/cache.db"
+      NTFY_ATTACHMENT_CACHE_DIR: "/var/cache/ntfy/attachments"
+      NTFY_AUTH_FILE: "/var/lib/ntfy/user.db"
+      NTFY_WEB_PUSH_FILE: "/var/lib/ntfy/webpush.db"
     volumes:
       - /Volume1/DockerAppData/ntfydocker/cache:/var/cache/ntfy
       - /Volume1/DockerAppData/ntfydocker/config:/etc/ntfy
+      - /Volume1/DockerAppData/ntfydocker/lib:/var/lib/ntfy
     healthcheck:
       test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/v1/health || exit 1"]
       interval: 30s

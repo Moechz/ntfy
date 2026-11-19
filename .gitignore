@@ -13,3 +13,10 @@ HANDOFF.md
 # --- build machine noise ---
 .DS_Store
 ._*
+
+# --- official self-testing tool (packaging tool, not part of the app) ---
+/TOSAppSelfTestingTool
+
+# --- local packaging helpers (never published) ---
+/.toolkit/
+/.gitconfig-local
