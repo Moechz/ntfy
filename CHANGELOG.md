@@ -47,9 +47,11 @@ at 1. **The host port stays 8034:8080 (RUNBOOK §12: a port collision is not a d
 - **C3 / C8 — privacy policy and third-party disclosure.** `PRIVACY.md` rewritten for
   2.38.2: data inventory, storage paths, retention, user rights and deletion channel,
   security measures, and a table of every endpoint that can receive data (Docker Hub,
-  optional upstream iOS relay, FCM, web push, SMTP, Twilio) with the exact switch for
-  each. The policy states that there is **no update check and no telemetry**. `help`
-  opens the public policy, and `important` in the store listing points to it.
+  optional upstream iOS relay, FCM, web push, SMTP, Twilio, and the browser-side GitHub
+  lookup performed by the bundled `/docs/` page) with the exact switch for each. The
+  policy states that the **server** performs no update check and no telemetry, and
+  discloses the `/docs/` MkDocs widget separately. `help` opens the public policy, and
+  `important` in the store listing points to it.
 - **C10 — README** completed with repository layout, first start, attachments, third-party
   table, privacy, security/privileges, data & uninstall, build and architecture sections.
 

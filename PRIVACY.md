@@ -12,8 +12,13 @@ independent community package, not affiliated with the upstream ntfy project or 
 
 - The app runs **entirely on your NAS**. The developer receives no data, operates no server
   that the app talks to, and has no way to access your instance.
-- **By default the app contacts no third-party service at all.** No telemetry, no analytics,
-  no advertising, no crash reporting, no update check, no account with the developer.
+- **The ntfy server itself contacts no third-party service by default.** No telemetry, no
+  analytics, no advertising, no crash reporting, no server-side update check, no account with
+  the developer.
+- The **bundled documentation page** (the “Docs” entry in the web UI, served at `/docs/`) is a
+  static MkDocs site. Its header asks GitHub for the upstream repository's star/fork counts and
+  latest release tag — a request made by **your browser**, only when you open that page. It is
+  the only “latest release” lookup in the package; see §3.
 - Every integration that could send data off the NAS (upstream iOS relay, Firebase, web push,
   SMTP, Twilio) is **off unless you configure it yourself** — see §3.
 - **File attachments are off by default.** Upstream only accepts an attachment directory when
@@ -39,21 +44,25 @@ The container's own `/tmp` is discarded when the container is recreated.
 | Client IP addresses | used in memory for rate limiting; the last IP of a token is written to `user.db` | memory, `lib/user.db` | memory: process lifetime. `user.db`: until the token is deleted |
 
 No data is sent to the developer. Nothing is uploaded anywhere unless you enable one of the
-optional integrations in §3. There is no “phone home”, no licence check and no update check:
-the server never contacts GitHub, Docker Hub or the ntfy project on its own. The web UI only
-polls `/v1/config` on your own server.
+optional integrations in §3. There is no “phone home”, no licence check and no server-side
+update check: the container never contacts GitHub, Docker Hub or the ntfy project on its own.
+The web UI only polls `/v1/config` on your own server. The single exception is your **browser**
+loading the bundled `/docs/` page, which runs the MkDocs Material repository widget described
+in §3 — it asks GitHub for the upstream repo's stars/forks and latest release.
 
 ## 3. What can leave the NAS (third-party endpoints)
 
 With the default configuration the answer is **nothing**. The app contains no credentials and
 no preconfigured remote endpoint. The table lists every integration a user can turn on, the
-endpoint it uses, the data it sends and how to turn it off. All of them require you to edit
-`/Volume1/DockerAppData/ntfydocker/config/server.yml` (or build your own app); none is on by
-default.
+endpoint it uses, the data it sends and how to turn it off. The ntfy integrations require you
+to edit `/Volume1/DockerAppData/ntfydocker/config/server.yml` (or build your own app) and none
+is on by default. The documentation row is the one exception — it fires in **your browser**
+only when you open `/docs/`, and it sends no instance data.
 
 | Integration | Endpoint | Data sent | Destination / region | How to enable / disable |
 |---|---|---|---|---|
 | Container image pull (install and update only) | `registry-1.docker.io` (or the registry mirror configured on your NAS) | anonymous image pull, no user data | Docker Hub, US / your mirror | performed by the App Center, not by the app. It stops when the image is present |
+| Bundled documentation page (“Docs” in the web UI, `/docs/`) | `api.github.com/repos/binwiederhier/ntfy` and `.../releases/latest` | the docs theme (MkDocs Material) reads the upstream repository's star/fork counts and latest release tag. Your browser sends the request, so GitHub sees your IP. No instance data, no message content | GitHub, US | passive: only when **you** open `/docs/`. The app UI at `/` never calls it. Avoid `/docs/` or block `api.github.com` to prevent it |
 | iOS instant notifications, via an upstream ntfy server you choose | the URL you set in `upstream-base-url`, conventionally `https://ntfy.sh` | a `poll_request` containing only the message ID and the SHA-256 of the topic URL. **Message content stays on your NAS** | the upstream operator you chose | opt-in: set `upstream-base-url` **and** `base-url` in `server.yml`. Remove both to disable. Without it iOS delivery may take hours |
 | Firebase Cloud Messaging (FCM) | `fcm.googleapis.com` | topic name and message metadata, for Android delivery | Google, US | opt-in and rarely needed: set `firebase-key-file` **and** build your own Android APK. Remove the key to disable |
 | Browser web push | the push endpoint of the browser vendor (Google for Chrome/Edge, Mozilla for Firefox, Apple for Safari) | an encrypted push payload and your subscription endpoint | that vendor | opt-in: requires `web-push-*` keys, `web-push-file` **and** `base-url`, plus a browser that subscribes. Delete the subscription to stop |

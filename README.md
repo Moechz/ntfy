@@ -110,8 +110,11 @@ keys to disable attachments again.
 
 The developer operates no server in this path and receives no data. **With the default
 configuration the container makes no outbound connection** — there is no telemetry, no
-analytics, no advertising, no crash reporting and **no update check**. Everything below is
-opt-in and must be configured by you in `config/server.yml` (or requires your own app build):
+analytics, no advertising, no crash reporting and **no server-side update check**. The ntfy
+integrations below are opt-in and must be configured by you in `config/server.yml` (or require
+your own app build). One extra row is browser-side only: the bundled documentation page
+(`/docs/`, the “Docs” entry in the web UI) carries the MkDocs Material repository widget, which
+asks GitHub for the upstream repo's stars/forks and latest release when **you** open it.
 
 | Service | Endpoint | Data sent | Destination / region |
 |---|---|---|---|
@@ -120,6 +123,7 @@ opt-in and must be configured by you in `config/server.yml` (or requires your ow
 | Web push (only if the `web-push-*` keys are set, `base-url` is set and a browser subscribes) | the browser vendor's push endpoint | an encrypted push payload plus the subscription endpoint | Google / Mozilla / Apple / Microsoft |
 | SMTP (only if `smtp-sender-*` or `smtp-server-*` is set) | the SMTP server you configure | the message / recipient address, or the inbound mail for e-mail publishing | your mail provider |
 | Twilio phone calls (only if `twilio-*`, `base-url` and an auth file are set) | `api.twilio.com` | phone number and call/SMS metadata | Twilio, US |
+| Bundled docs page (`/docs/`, only when you open it) | `api.github.com/repos/binwiederhier/ntfy` + `/releases/latest` | upstream stars/forks and latest release tag, fetched by your browser (your IP, no instance data) | GitHub, US |
 | Image pull at install | `registry-1.docker.io` or your registry mirror | anonymous pull, no user data | Docker Hub, US / your mirror |
 
 `PRIVACY.md` §3 has the same table with the exact configuration keys and how to turn each one
