@@ -1,29 +1,46 @@
 # ===========================================================================
 # ntfy for TerraMaster TOS 7 (Docker application)
 # ===========================================================================
-# Upstream image : binwiederhier/ntfy:v2.38.1 (Docker Hub, used unmodified)
+# Upstream image : binwiederhier/ntfy:v2.38.2 (Docker Hub, used unmodified)
 #                  -> https://github.com/binwiederhier/ntfy
+# Image index    : binwiederhier/ntfy@sha256:ca35419d29a834824db2440fa9320897fbe40b026c5fc2360c76ed3501b5e716
+#                  (multi-arch manifest list, linux/amd64 + linux/arm64)
+#                  amd64 : sha256:cc40cb7437494639bbea89f13647c47765496dc8c579822b6239bca6cfd238ed
+#                  arm64 : sha256:3783af9a1e0ef6a7aea9ee7297258b97efff94fde0df20546e60ece9d1ab99ba
+#                  2.38.2 is the 2026-11-24 security release (SMTP library
+#                  memory exhaustion, topic reservation and rate-limit fixes).
 #
 # Ports   : host 8034 -> container 8080. The host port is in the
 #           TOS-recommended 8000-19999 range and is not one of the reserved
-#           ports (22/80/443/445/3306/5050/5432/6379/8181/8443).
+#           ports (22/80/443/445/3306/5050/5432/6379/8181/8443). It is
+#           unchanged from the previous release (RUNBOOK section 12: a host
+#           port collision is normal in a store with thousands of apps and is
+#           not a defect - users choose which app to install).
 # Volumes : all persistent data lives below
 #           /Volume1/DockerAppData/ntfydocker/. The /Volume* wildcard is
 #           deliberately NOT used: the platform does not expand it.
-#           cache/  -> /var/cache/ntfy  message cache and attachments
+#           cache/  -> /var/cache/ntfy  message cache (attachments if enabled)
 #           config/ -> /etc/ntfy        server.yml
 #           lib/    -> /var/lib/ntfy    user.db (auth) and webpush.db
-#           The four paths are pinned in the environment below, because ntfy's
+#           The three paths are pinned in the environment below, because ntfy's
 #           own defaults put user.db and webpush.db in /var/lib/ntfy - without
 #           the third volume every account and push subscription would be lost
 #           when the container is recreated.
+# Runtime : the upstream image runs as root by default and starts `ntfy` as
+#           PID 1. This package overrides the user to 1000:1000, drops every
+#           capability and forbids privilege escalation. The wrapper in
+#           src/entrypoint.sh sets umask 077, tightens the data folders to
+#           0700 and the databases to 0600, then execs ntfy, so the server is
+#           PID 1 and receives SIGTERM directly (clean `docker stop`).
 # TOS rules honoured: Docker Hub image with a fixed tag (never ':latest'),
 #           container_name == application id, restart: unless-stopped,
 #           non-root user, no privileged mode, no network_mode: host, no
 #           cap_add, explicit TZ, a healthcheck on the only service, and
 #           x-app-meta as the last block.
 # Escaping: docker compose interpolates ${VAR}/$VAR in compose files, so any
-#           '$' meant for the shell is written '$$'.
+#           '$' meant for the shell is written '$$'. The embedded wrapper is
+#           escaped automatically by scripts/build.sh - edit src/entrypoint.sh,
+#           never the block below.
 #
 # NOTE for maintainers: never place a comment line directly in front of a
 # "- value" sequence item (ports, volumes, ...). The official
@@ -33,18 +50,25 @@
 
 services:
   ntfydocker:
-    image: binwiederhier/ntfy:v2.38.1
+    image: binwiederhier/ntfy:v2.38.2
     container_name: ntfydocker
     restart: unless-stopped
     user: "1000:1000"
-    command: ["serve"]
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        @@ENTRYPOINT_SH@@
     ports:
       - "8034:8080"
     environment:
       TZ: "Asia/Shanghai"
       NTFY_LISTEN_HTTP: ":8080"
       NTFY_CACHE_FILE: "/var/cache/ntfy/cache.db"
-      NTFY_ATTACHMENT_CACHE_DIR: "/var/cache/ntfy/attachments"
       NTFY_AUTH_FILE: "/var/lib/ntfy/user.db"
       NTFY_WEB_PUSH_FILE: "/var/lib/ntfy/webpush.db"
     volumes:

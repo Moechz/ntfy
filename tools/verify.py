@@ -92,8 +92,17 @@ for key in ("help", "official", "Official"):
             f"{key} must be a github.com URL (the link checker performs an HTTP GET)")
 
 # ---- lang -------------------------------------------------------------------
-lang = (stage / f"{appid}.lang").read_text(encoding="utf-8")
+lang_bytes = (stage / f"{appid}.lang").read_bytes()
+lang = lang_bytes.decode("utf-8")
 chk("@@" not in lang, "lang still contains an unreplaced @@PLACEHOLDER@@")
+# The store parses the lang file as INI and treats ';' as the comment marker: the
+# rest of the value is dropped, the closing quote is lost and the section becomes
+# unreadable (this is what L01/L03 reported for 2.38.1-1). Mixed CRLF/LF line
+# endings are rejected too. Both are hard build failures now.
+chk(";" not in lang,
+    "lang must not contain an ASCII ';' (the store INI parser cuts the value there) - "
+    "use the full-width '；' or rewrite the sentence")
+chk(b"\r" not in lang_bytes, "lang must use LF line endings only (no CRLF)")
 secs = re.findall(r"^\[([a-z]{2}-[a-z]{2})\]$", lang, re.M)
 chk(REQUIRED_LANGS.issubset(set(secs)),
     f"lang missing required languages: {sorted(REQUIRED_LANGS - set(secs))}")

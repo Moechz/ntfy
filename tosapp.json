@@ -1,9 +1,9 @@
 {
   "app_id": "ntfydocker",
   "title": "ntfy",
-  "image": "binwiederhier/ntfy:v2.38.1",
+  "image": "binwiederhier/ntfy:v2.38.2",
   "repo_name": "ntfy",
-  "mode": "plain",
+  "mode": "wrapper",
   "container_port": 8080,
   "category": [
     "Web_Services"
@@ -26,16 +26,15 @@
     "TZ": "Asia/Shanghai",
     "NTFY_LISTEN_HTTP": ":8080",
     "NTFY_CACHE_FILE": "/var/cache/ntfy/cache.db",
-    "NTFY_ATTACHMENT_CACHE_DIR": "/var/cache/ntfy/attachments",
     "NTFY_AUTH_FILE": "/var/lib/ntfy/user.db",
     "NTFY_WEB_PUSH_FILE": "/var/lib/ntfy/webpush.db"
   },
   "auth": "binwiederhier",
   "upstream_url": "https://github.com/binwiederhier/ntfy",
-  "upstream_license": "Apache-2.0",
-  "descript": "ntfy is a self-hosted push-notification service: publish a message to a topic with a single PUT/POST from any script, monitoring tool or the web UI, and read it in the web UI, the API, WebSocket/SSE or the ntfy phone app. The server keeps messages, attachments, its user database and its configuration in the application data folder, and by default contacts no external service - iOS push and e-mail publishing are opt-in settings that need an upstream server or an SMTP account.",
-  "release_note": "Review remediation: PRIVACY.md, NOTICE.md and the README privacy / third-party sections added; the help field opens the privacy policy; cache, attachments, the auth database and web-push subscriptions are now pinned inside the mounted data folders so they survive a reinstall; the descriptions were rewritten to match the real feature set; upstream upgraded to 2.38.1.",
-  "important": "Requires DockerEngine. The container listens on 8080 as a non-root user; web UI and API share the port. There is NO authentication by default: anyone who can reach it can publish and subscribe to any topic - keep it on your LAN, or add a user with docker exec -it ntfydocker ntfy user add --role=admin <name> and set NTFY_AUTH_DEFAULT_ACCESS=deny-all. Cache, attachments, users and config live in DockerAppData/ntfydocker. Plain HTTP; use a TLS reverse proxy before exposing it to the internet.",
+  "upstream_license": "Apache-2.0 OR GPL-2.0",
+  "descript": "ntfy is a self-hosted push-notification service: publish a message to a topic with a single PUT/POST from any script, monitoring tool or the web UI, then read it in the web UI, the API, WebSocket/SSE or the ntfy phone app. Messages, users and configuration stay in the application data folder, and the server contacts no third-party service unless you enable one of the opt-in integrations. File attachments are disabled until you set base-url and attachment-cache-dir in server.yml.",
+  "release_note": "2.38.2-1: rectified per review comments. D18/F2/F7 - removed the redundant attachment-cache-dir setting that made the container exit at startup, so the service now runs and the web UI opens. C3 - complete privacy policy linked from Help. C8 - third-party API table (Docker Hub, optional upstream iOS relay, FCM, web push, SMTP, Twilio). C9 - descriptions match the delivered features, attachments documented as opt-in. L01/L03 - 23-language file regenerated without ASCII semicolons and with LF endings. S11/V1 - non-root uid 1000, capabilities dropped, no-new-privileges, umask 077 and databases 0600. T1 - upstream 2.38.2 security release.",
+  "important": "Requires DockerEngine. Open http://<NAS-IP>:8034/ - the web UI and the API share the port. Runs as uid 1000, capabilities dropped. No authentication by default: anyone who can reach it can publish and subscribe to any topic, so keep it on the LAN or add a user with docker exec -it ntfydocker ntfy user add --role=admin <name> and set NTFY_AUTH_DEFAULT_ACCESS=deny-all. Cache, users and config live in DockerAppData/ntfydocker. Plain HTTP - use a TLS reverse proxy off-LAN. Privacy policy: see the Help link.",
   "healthcheck": [
     "CMD-SHELL",
     "wget -q -O /dev/null http://127.0.0.1:8080/v1/health || exit 1"
@@ -46,9 +45,9 @@
   "publisher": "Moechz",
   "compose_project": "ntfydocker",
   "github_repo": "ntfy",
-  "upstream_version": "2.38.1",
+  "upstream_version": "2.38.2",
   "release_tag_prefix": "v",
-  "version": "2.38.1-1",
+  "version": "2.38.2-1",
   "help": "https://github.com/Moechz/ntfy/blob/main/PRIVACY.md",
   "official": "https://github.com/binwiederhier/ntfy",
   "license": "Apache-2.0",
@@ -60,24 +59,35 @@
   "healthcheck_start_period": "20s",
   "translations": {
     "zh-cn": {
-      "descript": "ntfy 是一个自建的推送通知服务：任何脚本、监控工具或网页只要发一个 PUT/POST 到某个 topic，就能在网页、API、WebSocket/SSE 或 ntfy 手机 App 里收到消息。服务端把消息、附件、用户库与配置都保存在应用数据目录，默认不连接任何外部服务——iOS 推送与邮件发布是可选项，需要自行配置上游服务器或 SMTP 账号。适合做备份结果、下载完成与监控告警。",
-      "important": "需要 DockerEngine。容器以非 root 用户监听 8080，网页与 API 共用该端口。默认没有鉴权：任何能访问该端口的人都能向任意 topic 发布/订阅——请只在内网使用，或先用 docker exec -it ntfydocker ntfy user add --role=admin <用户名> 建用户，并把 NTFY_AUTH_DEFAULT_ACCESS 设为 deny-all。缓存、附件、用户库与配置都在 DockerAppData/ntfydocker。界面为纯 HTTP，暴露公网前请加带 TLS 的反向代理。"
+      "descript": "ntfy 是一个自建的推送通知服务：任何脚本、监控工具或网页只要发一个 PUT/POST 到某个 topic，就能在网页、API、WebSocket/SSE 或 ntfy 手机 App 里收到消息。消息、用户与配置都保存在应用数据目录，除非你主动启用可选出站集成，服务端不连接任何第三方服务。附件功能默认关闭，需在 server.yml 里同时设置 base-url 与 attachment-cache-dir 才能启用。",
+      "important": "需要 DockerEngine。打开 http://<NAS-IP>:8034/，网页与 API 共用该端口。容器以 uid 1000 运行并丢弃全部 capability。默认没有鉴权：任何能访问该端口的人都能向任意 topic 发布或订阅，请只在内网使用，或先用 docker exec -it ntfydocker ntfy user add --role=admin <用户名> 建用户，并把 NTFY_AUTH_DEFAULT_ACCESS 设为 deny-all。缓存、用户与配置都在 DockerAppData/ntfydocker。界面为纯 HTTP，暴露公网前请加带 TLS 的反向代理。隐私政策见帮助链接。"
     },
     "zh-hk": {
-      "descript": "ntfy 是一個自建的推送通知服務：任何腳本、監控工具或網頁只要發一個 PUT/POST 到某個 topic，就能在網頁、API、WebSocket/SSE 或 ntfy 手機 App 裡收到訊息。伺服器把訊息、附件、使用者庫與設定都保存在應用資料目錄，預設不連接任何外部服務——iOS 推送與郵件發佈是可選項，需要自行設定上游伺服器或 SMTP 帳號。適合做備份結果、下載完成與監控告警。",
-      "important": "需要 DockerEngine。容器以非 root 使用者監聽 8080，網頁與 API 共用該埠。預設沒有驗證：任何能存取該埠的人都能向任意 topic 發佈/訂閱——請只在內網使用，或先用 docker exec -it ntfydocker ntfy user add --role=admin <使用者名稱> 建立使用者，並把 NTFY_AUTH_DEFAULT_ACCESS 設為 deny-all。快取、附件、使用者庫與設定都在 DockerAppData/ntfydocker。介面為純 HTTP，暴露公網前請加帶 TLS 的反向代理。"
+      "descript": "ntfy 是一個自建的推送通知服務：任何腳本、監控工具或網頁只要發一個 PUT/POST 到某個 topic，就能在網頁、API、WebSocket/SSE 或 ntfy 手機 App 裡收到訊息。訊息、使用者與設定都保存在應用資料目錄，除非你主動啟用可選出站整合，伺服器不連接任何第三方服務。附件功能預設關閉，需在 server.yml 裡同時設定 base-url 與 attachment-cache-dir 才能啟用。",
+      "important": "需要 DockerEngine。開啟 http://<NAS-IP>:8034/，網頁與 API 共用該埠。容器以 uid 1000 執行並丟棄全部 capability。預設沒有驗證：任何能存取該埠的人都能向任意 topic 發佈或訂閱，請只在內網使用，或先用 docker exec -it ntfydocker ntfy user add --role=admin <使用者名稱> 建立使用者，並把 NTFY_AUTH_DEFAULT_ACCESS 設為 deny-all。快取、使用者與設定都在 DockerAppData/ntfydocker。介面為純 HTTP，暴露公網前請加帶 TLS 的反向代理。隱私政策見說明連結。"
     }
   },
-  "data_notes": "`/var/cache/ntfy` (mounted from `DockerAppData/ntfydocker/cache`) keeps the message cache and any attachments; `/etc/ntfy` (mounted from `.../config`) is where you put `server.yml` to add users, access control or a base URL.",
+  "data_notes": "`/var/cache/ntfy` (mounted from `DockerAppData/ntfydocker/cache`) keeps the message cache and, when attachments are enabled, the uploaded files. `/etc/ntfy` (mounted from `.../config`) is where you put `server.yml` to add users, access control, a base URL or attachments. `/var/lib/ntfy` (mounted from `.../lib`) keeps `user.db` and `webpush.db`.",
   "design_notes": [
-    "**Non-root by port choice.** The image defaults to port 80, which an unprivileged container cannot bind; the package starts `ntfy serve` with `NTFY_LISTEN_HTTP=:8080` instead.",
-    "**No external database.** The message cache is a file-based store under the cache volume.",
-    "**One HTTP port for UI and API.** Publishing is a plain PUT/POST, so scripts and the phone app need nothing but the URL."
+    "**Non-root by port choice.** The image defaults to port 80, which an unprivileged container cannot bind. The package runs as uid 1000, starts `ntfy serve` on `NTFY_LISTEN_HTTP=:8080`, drops all capabilities and sets `no-new-privileges`.",
+    "**Private state files.** A small wrapper sets `umask 077` before starting the server, so `cache.db`, `user.db` and `webpush.db` are created 0600 and the three data folders are tightened to 0700. The databases hold messages, password hashes and access tokens.",
+    "**No external database.** The message cache is a file-based SQLite store inside the cache volume.",
+    "**One HTTP port for UI and API.** Publishing is a plain PUT/POST, so scripts and the phone app need nothing but the URL.",
+    "**Attachments are opt-in.** Upstream refuses to start when `attachment-cache-dir` is set without `base-url`, and the NAS address is not known inside the container. The package therefore leaves both unset. Set both in `config/server.yml` to enable attachments."
   ],
   "limitations": [
     "- No authentication out of the box: anyone reaching the port can publish to any topic. Add an auth file or keep it on the LAN.",
-    "- The web UI is plain HTTP; use a TLS reverse proxy before exposing it to the internet.",
-    "- Attachment links and some notification links use ntfy's base-url setting; set it in `server.yml` if your NAS address changes (the package does not guess your NAS IP)."
+    "- The web UI is plain HTTP. Use a TLS reverse proxy before exposing it to the internet.",
+    "- File attachments are disabled by default. Enable them by setting `base-url` and `attachment-cache-dir` together in `config/server.yml`.",
+    "- iOS instant notifications need a user-configured upstream server; without it, delivery to iOS may take hours. Android delivery does not involve this server."
   ],
-  "host_port": 8034
+  "host_port": 8034,
+  "platforms": [
+    "x86_64",
+    "aarch64"
+  ],
+  "runtime_files": [
+    "cache/cache.db",
+    "lib/user.db"
+  ]
 }
